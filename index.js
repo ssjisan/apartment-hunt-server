@@ -65,29 +65,24 @@ app.get('/house', (req, res) => {
 /*****************************************Send Data to site  End********************************/ 
 
 /*****************************************Rent Request Start***************************************/ 
-app.post('/addBooking', (req, res) => {
+app.post('/addRequest', (req, res) => {
   const name = req.body.name;
   const number = req.body.number;
   const email = req.body.email;
   const message = req.body.message;
-  const status = req.body.status;
-
-  bookingCollection.insertOne({ name, number, email, message, status })
+  console.log(name, number, email, message);
+  renterCollection.insertOne({ name, number, email, message })
       .then(result => {
-          res.send(result.insertedCount > 0)
-      })
-});
-/*****************************************Rent Request End***************************************/ 
-
-
-  app.post('/rentList',(req,res)=>{
-    const date = req.body;
-    console.log(date);
-    renterCollection.find({})
-      .toArray((err,documents)=>{
-        res.send(documents);
+          res.send(result.insertedCount > 0);
       })
   })
+/*****************************************Rent Request End***************************************/ 
+app.get('/bookings', (req, res) => {
+  renterCollection.find({})
+      .toArray((err, documents) => {
+          res.send(documents);
+      })
+});
 
 });
 
